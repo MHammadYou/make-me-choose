@@ -23,7 +23,9 @@ INSTALLED_APPS = [
 
     # OWN APPS
 
-    'poll.apps.PollConfig',
+    'polls.apps.PollConfig',
+    'core.apps.CoreConfig',
+    'users.apps.UsersConfig',
 
     # DJANGO APPS
 

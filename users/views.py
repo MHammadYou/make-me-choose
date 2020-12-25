@@ -7,6 +7,10 @@ from .forms import LoginForm
 
 
 def signup(request):
+
+    if request.user.username:
+        return redirect('index')
+
     form = UserCreationForm(request.POST or None)
 
     if request.method == 'POST':
@@ -22,6 +26,10 @@ def signup(request):
 
 
 def login(request):
+
+    if request.user.username:
+        return redirect('index')
+
     form = LoginForm(request.POST or None)
 
     if request.method == 'POST':

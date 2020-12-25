@@ -10,7 +10,7 @@ class Poll(models.Model):
     option_2 = models.CharField(max_length=255, blank=False)
     count_2 = models.PositiveIntegerField(default=0)
     finished = models.BooleanField(default=False)
-    author = models.OneToOneField(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title[:50]
