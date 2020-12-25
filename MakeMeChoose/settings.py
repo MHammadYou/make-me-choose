@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'polls.apps.PollConfig',
     'core.apps.CoreConfig',
     'users.apps.UsersConfig',
+    'profiles.apps.ProfilesConfig',
 
     # DJANGO APPS
 
@@ -117,3 +118,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'
