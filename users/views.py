@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as login_user, logout as logout_user, authenticate
+from django.contrib import messages
 
 from .forms import LoginForm
 
@@ -15,7 +16,8 @@ def signup(request):
     if request.method == 'POST':
         if form.is_valid():
             form.save()
-            return redirect('index')
+            messages.success(request, "Your account has been created. You can login now")
+            return redirect('login')
 
     context = {
         'title': 'Signup',
@@ -37,9 +39,10 @@ def login(request):
             user = authenticate(request, **form.cleaned_data)
             if user:
                 login_user(request, user)
-                return redirect('profile')
+                messages.success(request, 'You have been logged in')
+                return redirect('index')
             else:
-                print("Invalid credentials!")
+                messages.error(request, 'Invalid Credentials')
 
     context = {
         'title': 'Login',

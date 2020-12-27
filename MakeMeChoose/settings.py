@@ -28,6 +28,10 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'profiles.apps.ProfilesConfig',
 
+    # THIRD PARTY
+
+    'crispy_forms',
+
     # DJANGO APPS
 
     'django.contrib.admin',
@@ -122,3 +126,11 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
+
+LOGIN_REDIRECT_URL = 'index'
+
+LOGIN_URL = 'login'
+
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

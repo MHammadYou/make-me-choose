@@ -1,22 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block head %}{% endblock %}
+
+{% block body %}
     <h1>Home</h1>
-    <div>
-        <ul>
-            {% for poll in polls %}
-                <div>
-                    <p>{{ poll.title }}</p>
-                    <p>{{ poll.option_1 }}</p>
-                    <p>{{ poll.option_2 }}</p>
-                    <h3>{{ poll.author }}</h3>
-                </div>
-            {% endfor %}
-        </ul>
-    </div>
-</body>
-</html>
+    {% for poll in polls %}
+        <form action="" method="post">
+            {% csrf_token %}
+            <h3>{{ poll.title }}</h3>
+            <p>{{ poll.count_1 }}</p>
+            <label for="option_1"></label>
+            <input type="radio" id="option_1" value="{{ poll.option_1 }}" name="choice">
+            <p>{{ poll.option_1 }}</p>
+            <p>{{ poll.count_2 }}</p>
+            <label for="option_2"></label>
+            <input type="radio" id="option_2" value="{{ poll.option_2 }}" name="choice">
+            <p>{{ poll.option_2 }}</p>
+            <br>
+            <input type="text" name="id" style="display: none" value="{{ poll.id }}">
+            <button class="btn btn-info">Vote</button>
+        </form>
+    {% endfor %}
+{% endblock %}
