@@ -11,6 +11,7 @@ class Poll(models.Model):
     count_2 = models.PositiveIntegerField(default=0)
     finished = models.BooleanField(default=False)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    voters = models.ManyToManyField(User, related_name='voters')
 
     def __str__(self):
         return self.title[:50]
