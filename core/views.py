@@ -6,6 +6,7 @@ from polls.models import Poll as Poll_Model
 
 def index(request):
     if request.method == 'POST':
+
         if request.user.username:
             poll_data = request.POST
             poll_obj = Poll_Model.objects.filter(id=poll_data.get('id')).first()
@@ -19,6 +20,7 @@ def index(request):
                     poll_obj.count_2 += 1
                 poll_obj.voters.add(request.user)
                 poll_obj.save()
+                messages.success(request, 'Voted Successfully')
         else:
             messages.error(request, 'Please login to vote')
 

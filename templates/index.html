@@ -3,22 +3,38 @@
 {% block head %}{% endblock %}
 
 {% block body %}
-    <h1>Home</h1>
-    {% for poll in polls %}
-        <form action="" method="post">
-            {% csrf_token %}
-            <h3>{{ poll.title }}</h3>
-            <p>{{ poll.count_1 }}</p>
-            <label for="option_1"></label>
-            <input type="radio" id="option_1" value="{{ poll.option_1 }}" name="choice">
-            <p>{{ poll.option_1 }}</p>
-            <p>{{ poll.count_2 }}</p>
-            <label for="option_2"></label>
-            <input type="radio" id="option_2" value="{{ poll.option_2 }}" name="choice">
-            <p>{{ poll.option_2 }}</p>
-            <br>
-            <input type="text" name="id" style="display: none" value="{{ poll.id }}">
-            <button class="btn btn-info">Vote</button>
-        </form>
-    {% endfor %}
+    <div class="row">
+        <div class="col-sm-8 mt-4">
+            {% for poll in polls %}
+                <div class=" card p-4 mt-3">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <h3 class="card-title">{{ poll.title }}</h3>
+{#                        <input type="radio" id="option_1" value="{{ poll.option_1 }}" name="choice">#}
+{#                        <label for="option_1">{{ poll.option_1 }}</label>#}
+{#                        <p>{{ poll.count_1 }}</p>#}
+{#                        <input type="radio" id="option_2" value="{{ poll.option_2 }}" name="choice">#}
+{#                        <label for="option_2">{{ poll.option_2 }}</label>#}
+{#                        <p>{{ poll.count_2 }}</p>#}
+                        <div class="input-group mt-1">
+                            <div class="input-group-text">
+                                <input class="form-check-input" name="choice" type="radio" value="{{ poll.option_1 }}" aria-label="Radio button for following text input">
+                            </div>
+                            <input type="text" class="form-control" disabled value="{{ poll.option_1 }}" aria-label="Text input with radio button">
+                        </div>
+                        <h6 class="card-text">Votes: {{ poll.count_1 }}</h6>
+                        <div class="input-group mt-2">
+                            <div class="input-group-text">
+                                <input class="form-check-input" name="choice" type="radio" value="{{ poll.option_2 }}" aria-label="Radio button for following text input">
+                            </div>
+                            <input type="text" class="form-control" disabled value="{{ poll.option_2 }}" aria-label="Text input with radio button">
+                        </div>
+                        <h6 class="card-text">Votes: {{ poll.count_2 }}</h6>
+                        <input type="text" name="id" style="display: none" value="{{ poll.id }}">
+                        <button class="btn btn-success mt-1">Vote</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
