@@ -54,4 +54,5 @@ def login(request):
 
 def logout(request):
     logout_user(request)
+    messages.success(request, "Logged out")
     return render(request, 'users/logout.html', {'title': 'Logout'})
