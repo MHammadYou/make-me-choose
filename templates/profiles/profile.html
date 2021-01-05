@@ -3,5 +3,39 @@
 {% block head %}{% endblock %}
 
 {% block body %}
-    <h1>{{ user.username }}'s Profile</h1>
+    <div class="row mt-4">
+        <div class="col-sm-8 card p-3">
+            <h2 class="card-title">{{ user.username }}</h2>
+            <div>
+                <a href="{% url 'change-password' %}" class="btn btn-success mt-1">Change Password</a>
+            </div>
+            <h5 class="card-text mt-3">Polls created by {{ user.username }}</h5>
+            {% if polls %}
+                {% for poll in polls %}
+                    <div class=" card p-4 mt-3">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <h3 class="card-title">{{ poll.title }}</h3>
+                            <div class="input-group mt-1">
+                                <div class="input-group-text">
+                                    <input class="form-check-input" name="choice" type="radio" value="{{ poll.option_1 }}" aria-label="Radio button for following text input">
+                                </div>
+                                <input type="text" class="form-control" disabled value="{{ poll.option_1 }}" aria-label="Text input with radio button">
+                            </div>
+                            <h6 class="card-text">Votes: {{ poll.count_1 }}</h6>
+                            <div class="input-group mt-2">
+                                <div class="input-group-text">
+                                    <input class="form-check-input" name="choice" type="radio" value="{{ poll.option_2 }}" aria-label="Radio button for following text input">
+                                </div>
+                                <input type="text" class="form-control" disabled value="{{ poll.option_2 }}" aria-label="Text input with radio button">
+                            </div>
+                            <h6 class="card-text">Votes: {{ poll.count_2 }}</h6>
+                            <input type="text" name="id" style="display: none" value="{{ poll.id }}">
+                            <button class="btn btn-success mt-1">Vote</button>
+                        </form>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

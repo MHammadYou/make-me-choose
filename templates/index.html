@@ -9,7 +9,10 @@
                 <div class=" card p-4 mt-3">
                     <form action="" method="post">
                         {% csrf_token %}
-                        <h3 class="card-title">{{ poll.title }}</h3>
+                        <h3 style="display: inline;">{{ poll.title }}</h3>
+                        <p style="display: inline; float:right;">Created By:
+                            <b>{{ poll.author }}</b>
+                        </p>
                         <div class="input-group mt-1">
                             <div class="input-group-text">
                                 <input class="form-check-input" name="choice" type="radio" value="{{ poll.option_1 }}" aria-label="Radio button for following text input">
