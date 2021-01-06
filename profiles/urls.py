@@ -8,6 +8,7 @@ from . import views
 urlpatterns = [
     path('profile', views.profile, name='profile'),
     path('change-password', views.change_password, name='change-password'),
+    path('edit-profile', views.edit_profile, name='edit-profile'),
 ]
 
 if settings.DEBUG:

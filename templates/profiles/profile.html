@@ -1,18 +1,27 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block head %}{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'profiles/profiles.css' %}">
+{% endblock %}
 
 {% block body %}
     <div class="row mt-4">
         <div class="col-sm-8 card p-3">
-            <h2 class="card-title">{{ user.username }}</h2>
-            <div>
-                <a href="{% url 'change-password' %}" class="btn btn-success mt-1">Change Password</a>
+            <div class="info-container">
+                <div class="img-container">
+                    <img src="{{ user.profile.img.url }}" alt="" class="img-fluid profile-img">
+                </div>
+                <div class="username-container">
+                    <p class="card-title ms-2 mt-3 display-3">{{ user.username }}</p>
+                    <a href="{% url 'edit-profile' %}" class="btn btn-outline-primary mt-1">Edit Profile</a>
+                    <a href="{% url 'change-password' %}" class="btn btn-outline-primary mt-1">Change Password</a>
+                </div>
             </div>
-            <h5 class="card-text mt-3">Polls created by {{ user.username }}</h5>
+            <h5 class="card-text mt-5">Polls created by {{ user.username }}</h5>
             {% if polls %}
                 {% for poll in polls %}
-                    <div class=" card p-4 mt-3">
+                    <div class=" card p-4 mt-4">
                         <form action="" method="post">
                             {% csrf_token %}
                             <h3 class="card-title">{{ poll.title }}</h3>
@@ -23,7 +32,7 @@
                                 <input type="text" class="form-control" disabled value="{{ poll.option_1 }}" aria-label="Text input with radio button">
                             </div>
                             <h6 class="card-text">Votes: {{ poll.count_1 }}</h6>
-                            <div class="input-group mt-2">
+                            <div class="input-group mt-3">
                                 <div class="input-group-text">
                                     <input class="form-check-input" name="choice" type="radio" value="{{ poll.option_2 }}" aria-label="Radio button for following text input">
                                 </div>
@@ -31,7 +40,7 @@
                             </div>
                             <h6 class="card-text">Votes: {{ poll.count_2 }}</h6>
                             <input type="text" name="id" style="display: none" value="{{ poll.id }}">
-                            <button class="btn btn-success mt-1">Vote</button>
+                            <button class="btn btn-success mt-2">Vote</button>
                         </form>
                     </div>
                 {% endfor %}
