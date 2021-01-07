@@ -69,5 +69,12 @@ def delete_poll(request, id):
         raise Http404('Forbidden')
 
 
-def end_poll(request):
-    pass
+def end_poll(request, id):
+    poll = get_object_or_404(Poll_Model, pk=id)
+
+    if poll.author == request.user:
+        poll.ended = True
+        poll.save()
+        return redirect('index')
+    else:
+        raise Http404('Forbidden')
