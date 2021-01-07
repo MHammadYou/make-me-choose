@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+
+{% block head %}{% endblock %}
+
+{% block body %}
+    <div class="row mt-4">
+        <div class="col-sm-8 card p-3">
+            <h3 class="card-title">Edit Poll</h3>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button class="btn btn-success mt-3">Update</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

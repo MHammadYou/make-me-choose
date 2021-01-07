@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import Http404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from .forms import PollForm
 from .models import Poll as Poll_Model
@@ -20,3 +22,52 @@ def new_poll(request):
     }
 
     return render(request, 'polls/new-poll.html', context)
+
+
+def edit_poll(request, id):
+
+    poll = get_object_or_404(Poll_Model, pk=id)
+
+    if poll.author == request.user:
+
+        form = PollForm(
+            request.POST or None,
+            initial={
+                'title': poll.title,
+                'option_1': poll.option_1,
+                'option_2': poll.option_2
+            }
+        )
+
+        if request.method == 'POST':
+            if form.is_valid():
+                poll.title = form.cleaned_data.get('title')
+                poll.option_1 = form.cleaned_data.get('option_1')
+                poll.option_2 = form.cleaned_data.get('option_2')
+                poll.save()
+                messages.success(request, 'Poll Updated')
+                return redirect('index')
+    else:
+        raise Http404('Forbidden')
+
+    context = {
+        'title': 'Update Poll',
+        'form': form
+    }
+
+    return render(request, 'polls/edit_poll.html', context)
+
+
+def delete_poll(request, id):
+    poll = get_object_or_404(Poll_Model, pk=id)
+
+    if poll.author == request.user:
+        poll.delete()
+        messages.success(request, 'Poll Deleted')
+        return redirect('index')
+    else:
+        raise Http404('Forbidden')
+
+
+def end_poll(request):
+    pass

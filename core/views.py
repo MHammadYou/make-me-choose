@@ -26,7 +26,7 @@ def index(request):
 
     context = {
         'title': 'Make Me Choose',
-        'polls': Poll_Model.objects.all()
+        'polls': Poll_Model.objects.all().order_by('-id')
     }
 
     return render(request, 'index.html', context)

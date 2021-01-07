@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'profiles/profiles.css' %}">
+    <link rel="stylesheet" href="{% static 'users/users.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="row mt-4">
+        <div class="col-sm-8 card p-3">
+            <div class="info-container">
+                <div class="img-container">
+                    <img src="{{ user_.profile.img.url }}" alt="" class="img-fluid profile-img">
+                </div>
+                <div class="username-container">
+                    <p class="card-title ms-2 mt-3 display-3">{{ user_.username }}</p>
+                </div>
+            </div>
+            {% if polls %}
+                <h5 class="card-text mt-5">Polls created by {{ user_.username }}</h5>
+                {% for poll in polls %}
+                    <div class=" card p-4 mt-4">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <h3 class="card-title">{{ poll.title }}</h3>
+                            <div class="input-group mt-1">
+                                <div class="input-group-text">
+                                    <input class="form-check-input" name="choice" type="radio" value="{{ poll.option_1 }}" aria-label="Radio button for following text input">
+                                </div>
+                                <input type="text" class="form-control" disabled value="{{ poll.option_1 }}" aria-label="Text input with radio button">
+                            </div>
+                            <h6 class="card-text">Votes: {{ poll.count_1 }}</h6>
+                            <div class="input-group mt-3">
+                                <div class="input-group-text">
+                                    <input class="form-check-input" name="choice" type="radio" value="{{ poll.option_2 }}" aria-label="Radio button for following text input">
+                                </div>
+                                <input type="text" class="form-control" disabled value="{{ poll.option_2 }}" aria-label="Text input with radio button">
+                            </div>
+                            <h6 class="card-text">Votes: {{ poll.count_2 }}</h6>
+                            <input type="text" name="id" style="display: none" value="{{ poll.id }}">
+                            <button class="btn btn-success mt-2">Vote</button>
+                        </form>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h5 class="card-text mt-5">This user has not created any polls yet</h5>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

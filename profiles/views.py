@@ -42,12 +42,13 @@ def change_password(request):
 def edit_profile(request):
 
     user_form = UsernameUpdateForm(request.POST or None, instance=request.user)
-    profile_form = ProfileUpdateForm(request.POST or None, request.FILES or None, instance=request.user.profile)
+    profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
 
     if request.method == 'POST':
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
+            print(profile_form.cleaned_data)
             messages.success(request, f'Your profile has been updated!')
             return redirect('profile')
 
