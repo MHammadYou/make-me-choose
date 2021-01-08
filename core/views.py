@@ -6,10 +6,9 @@ from polls.models import Poll as Poll_Model
 
 def index(request):
     if request.method == 'POST':
-        print(request.POST.get('option_1'))
-        print(request.POST.get('option_2'))
+        print(request.POST.get('choice'))
 
-        if request.POST.get('option_1') and request.POST.get('option_2'):
+        if request.POST.get('choice'):
 
             if request.user.username:
                 poll_data = request.POST
@@ -26,7 +25,7 @@ def index(request):
                     poll_obj.save()
                     messages.success(request, 'Voted Successfully')
             else:
-                messages.error(request, 'Please login to vote')
+                messages.error(request, 'Please create an to vote')
 
     context = {
         'title': 'Make Me Choose',

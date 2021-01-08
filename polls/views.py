@@ -8,6 +8,11 @@ from .models import Poll as Poll_Model
 
 
 @login_required
+def poll_type(request):
+    return render(request, 'polls/poll_type.html', {})
+
+
+@login_required
 def new_poll(request):
     form = PollForm(request.POST or None)
 
