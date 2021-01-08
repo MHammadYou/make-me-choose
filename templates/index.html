@@ -11,7 +11,7 @@
                         {% csrf_token %}
                         {% if poll.ended %}
                             <h3 style="display: inline;">{{ poll.title }}
-                                <span class="text-muted">(Ended)</span>
+                                <span class="text-muted" style="font-size: 1.1rem">(Ended)</span>
                             </h3>
                         {% else %}
                             <h3 style="display: inline;">{{ poll.title }}</h3>
@@ -47,7 +47,9 @@
                         <button class="btn btn-success mt-1">Vote</button>
                         {% if user == poll.author %}
                             <span style="float:right;">
-                                <a href="{% url 'end-poll' poll.id %}" class="btn btn-info mt-1" style="color: white">End</a>
+                                {% if not poll.ended %}
+                                     <a href="{% url 'end-poll' poll.id %}" class="btn btn-info mt-1" style="color: white">End</a>
+                                {% endif %}
                                 <a href="{% url 'edit-poll' poll.id %}" class="btn btn-primary mt-1">Edit</a>
                                 <a href="{% url 'delete-poll' poll.id %}" class="btn btn-danger mt-1">Delete</a>
                             </span>
