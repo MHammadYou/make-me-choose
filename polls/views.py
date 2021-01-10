@@ -3,7 +3,7 @@ from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from .forms import PollForm
+from .forms import PollForm, PollImgForm
 from .models import Poll as Poll_Model
 
 
@@ -23,6 +23,24 @@ def new_poll(request):
 
     context = {
         'title': 'Create New Poll',
+        'form': form
+    }
+
+    return render(request, 'polls/new-poll.html', context)
+
+
+@login_required
+def new_img_poll(request):
+    form = PollImgForm(request.POST or None, request.FILES or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            Poll_Model.objects.create(**form.cleaned_data, author=request.user)
+            messages.success(request, 'Poll Added')
+            return redirect('index')
+
+    context = {
+        'title': 'Create Poll',
         'form': form
     }
 

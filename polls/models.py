@@ -10,9 +10,11 @@ poll_type_choices = [
 
 class Poll(models.Model):
     title = models.CharField(max_length=255, blank=False)
-    option_1 = models.CharField(max_length=255, blank=False)
+    option_1 = models.CharField(max_length=255, blank=True)
+    image_1 = models.ImageField(upload_to='poll_images', blank=True)
     count_1 = models.PositiveIntegerField(default=0)
-    option_2 = models.CharField(max_length=255, blank=False)
+    option_2 = models.CharField(max_length=255, blank=True)
+    image_2 = models.ImageField(upload_to='poll_images', blank=True)
     count_2 = models.PositiveIntegerField(default=0)
     poll_type = models.CharField(max_length=5, choices=poll_type_choices, default='text')
     ended = models.BooleanField(default=False)
