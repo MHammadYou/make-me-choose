@@ -35,7 +35,7 @@ def new_img_poll(request):
 
     if request.method == 'POST':
         if form.is_valid():
-            Poll_Model.objects.create(**form.cleaned_data, author=request.user)
+            Poll_Model.objects.create(**form.cleaned_data, author=request.user, poll_type='image')
             messages.success(request, 'Poll Added')
             return redirect('index')
 

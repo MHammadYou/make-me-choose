@@ -1,0 +1,26 @@
+.image {
+    width: 80%;
+    height: 250px;
+}
+
+.poll-img {
+    width: 100%;
+}
+
+@media (min-width: 720px) {
+
+    .image {
+        width: 280px;
+        height: 230px;
+    }
+
+    .img-poll-container {
+        width: 100%;
+        display: flex;
+    }
+
+    .poll-img {
+        flex: 1;
+    }
+
+}
