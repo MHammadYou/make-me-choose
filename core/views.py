@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 
 from polls.models import Poll as Poll_Model
@@ -6,13 +6,12 @@ from polls.models import Poll as Poll_Model
 
 def index(request):
     if request.method == 'POST':
-        print(request.POST.get('choice'))
 
         if request.POST.get('choice'):
 
             if request.user.username:
                 poll_data = request.POST
-                poll_obj = Poll_Model.objects.filter(id=poll_data.get('id')).first()
+                poll_obj = get_object_or_404(Poll_Model, pk=poll_data.get('id'))
 
                 if request.user in poll_obj.voters.all():
                     messages.error(request, 'You can only vote once')

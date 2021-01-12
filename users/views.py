@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, Http404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login as login_user, logout as logout_user, authenticate
@@ -63,10 +62,10 @@ def logout(request):
 
 
 def users(request, id):
-    try:
-        user = User.objects.get(pk=id)
-    except User.DoesNotExist:
-        raise Http404("User does not exist")
+    user = get_object_or_404(User, pk=id)
+
+    if user == request.user:
+        return redirect('profile')
 
     polls = Poll_Model.objects.filter(author=user).all()
 
