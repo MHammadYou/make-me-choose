@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
@@ -9,7 +9,13 @@ from profiles.forms import UsernameUpdateForm, ProfileUpdateForm
 
 @login_required
 def profile(request):
-    polls = Poll_Model.objects.filter(author=request.user).all()
+    polls = get_list_or_404(Poll_Model, author=request.user)
+
+    if request.method == 'POST':
+        if request.POST.get('choice'):
+            poll_obj = get_object_or_404(Poll_Model, pk=request.POST.get('id'))
+            poll_obj.vote(request)
+            return redirect('profile')
 
     context = {
         'title': 'Profile',

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login as login_user, logout as logout_user, authenticate
@@ -11,7 +11,7 @@ from polls.models import Poll as Poll_Model
 
 def signup(request):
 
-    if request.user.username:
+    if request.user.is_authenticated:
         return redirect('index')
 
     form = UserCreationForm(request.POST or None)
@@ -31,7 +31,7 @@ def signup(request):
 
 def login(request):
 
-    if request.user.username:
+    if request.user.is_authenticated:
         return redirect('index')
 
     form = LoginForm(request.POST or None)
@@ -67,7 +67,18 @@ def users(request, id):
     if user == request.user:
         return redirect('profile')
 
-    polls = Poll_Model.objects.filter(author=user).all()
+    polls = get_list_or_404(Poll_Model, author=user)
+
+    if request.method == 'POST':
+        print(request.POST.get('choice'))
+        if request.POST.get('choice'):
+            if request.user.is_authenticated:
+                poll_obj = get_object_or_404(Poll_Model, pk=request.POST.get('id'))
+                poll_obj.vote(request)
+                # return redirect('users')
+            else:
+                messages.error(request, 'Please create an account to vote')
+
 
     context = {
         'title': f"{user.username}'s Profile",
