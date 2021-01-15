@@ -1,62 +1,53 @@
-{% extends 'base.html' %}
-
-{% block body %}
-    <div class="row">
-        <div class="col-sm-8 mt-4">
-            <div class=" card p-4 mt-3">
-                <form action="" method="post">
-                    {% csrf_token %}
+{% if poll.poll_type == 'text' %}
+    <div class="input-group mt-1">
+        <div class="input-group-text">
+            {% if poll.ended %}
+                <input class="form-check-input" name="choice" type="radio" disabled value="{{ poll.option_1 }}" aria-label="Radio button for following text input">
+            {% else %}
+                <input class="form-check-input" name="choice" type="radio" value="{{ poll.option_1 }}" aria-label="Radio button for following text input">
+            {% endif %}
+        </div>
+        <input type="text" class="form-control" disabled value="{{ poll.option_1 }}" aria-label="Text input with radio button">
+    </div>
+    <h6 class="card-text">Votes: {{ poll.count_1 }}</h6>
+    <div class="input-group mt-2">
+        <div class="input-group-text">
+            {% if poll.ended %}
+                <input class="form-check-input" name="choice" type="radio" disabled value="{{ poll.option_2 }}" aria-label="Radio button for following text input">
+            {% else %}
+                <input class="form-check-input" name="choice" type="radio" value="{{ poll.option_2 }}" aria-label="Radio button for following text input">
+            {% endif %}
+        </div>
+        <input type="text" class="form-control" disabled value="{{ poll.option_2 }}" aria-label="Text input with radio button">
+    </div>
+    <h6 class="card-text">Votes: {{ poll.count_2 }}</h6>
+{% else %}
+    <div class="img-poll-container">
+        <div class="poll-img">
+            <div class="input-group mt-1">
+                <div class="input-group-text">
                     {% if poll.ended %}
-                        <h3 style="display: inline;">{{ poll.title }}
-                            <span class="text-muted" style="font-size: 1.1rem">(Ended)</span>
-                        </h3>
+                        <input class="form-check-input" name="choice" type="radio" disabled value="{{ poll.option_1 }}" aria-label="Radio button for following text input">
                     {% else %}
-                        <h3 style="display: inline;">{{ poll.title }}</h3>
+                        <input class="form-check-input" name="choice" type="radio" value="{{ poll.option_1 }}" aria-label="Radio button for following text input">
                     {% endif %}
-                    <p style="display: inline; float:right;">Created By:
-                        <b>
-                            <a href="{% url 'users' poll.author.id %}">{{ poll.author }}</a>
-                        </b>
-                    </p>
-                    <div class="input-group mt-1">
-                        <div class="input-group-text">
-                            {% if poll.ended %}
-                            <input class="form-check-input" name="choice" type="radio" disabled value="{{ poll.option_1 }}" aria-label="Radio button for following text input">
-                            {% else %}
-                            <input class="form-check-input" name="choice" type="radio" value="{{ poll.option_1 }}" aria-label="Radio button for following text input">
-                            {% endif %}
-                        </div>
-                        <input type="text" class="form-control" disabled value="{{ poll.option_1 }}" aria-label="Text input with radio button">
-                    </div>
-                    <h6 class="card-text">Votes: {{ poll.count_1 }}</h6>
-                    <div class="input-group mt-2">
-                        <div class="input-group-text">
-                            {% if poll.ended %}
-                            <input class="form-check-input" name="choice" type="radio" disabled value="{{ poll.option_2 }}" aria-label="Radio button for following text input">
-                            {% else %}
-                            <input class="form-check-input" name="choice" type="radio" value="{{ poll.option_2 }}" aria-label="Radio button for following text input">
-                            {% endif %}
-                        </div>
-                        <input type="text" class="form-control" disabled value="{{ poll.option_2 }}" aria-label="Text input with radio button">
-                        {% if poll.poll_type == 'image' %}
-                            <img src="media/{{ poll.option_1 }}" alt="">
-                        {% endif %}
-                    </div>
-                    <h6 class="card-text">Votes: {{ poll.count_2 }}</h6>
-                    <input type="text" name="id" style="display: none" value="{{ poll.id }}">
-                    <button class="btn btn-success mt-1">Vote</button>
-                    {% if user == poll.author %}
-                        <span style="float:right;">
-                            {% if not poll.ended %}
-                                 <a href="{% url 'end-poll' poll.id %}" class="btn btn-info mt-1" style="color: white">End</a>
-                            {% endif %}
-                            <a href="{% url 'edit-poll' poll.id %}" class="btn btn-primary mt-1">Edit</a>
-                            <a href="{% url 'delete-poll' poll.id %}" class="btn btn-danger mt-1">Delete</a>
-                        </span>
-                    {% endif %}
-
-                </form>
+                </div>
+                <img src="{{ poll.image_1.url }}" alt="" class="image img-responsive">
             </div>
+            <h6 class="card-text">Votes: {{ poll.count_1 }}</h6>
+        </div>
+        <div class="poll-img">
+            <div class="input-group mt-1">
+                <div class="input-group-text">
+                    {% if poll.ended %}
+                        <input class="form-check-input" name="choice" type="radio" disabled value="{{ poll.option_2 }}" aria-label="Radio button for following text input">
+                    {% else %}
+                        <input class="form-check-input" name="choice" type="radio" value="{{ poll.option_2 }}" aria-label="Radio button for following text input">
+                    {% endif %}
+                </div>
+                <img src="{{ poll.image_2.url }}" alt="" class="image img-responsive">
+            </div>
+            <h6 class="card-text">Votes: {{ poll.count_2 }}</h6>
         </div>
     </div>
-{% endblock %}
+{% endif %}

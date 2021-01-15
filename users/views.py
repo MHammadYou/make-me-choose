@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login as login_user, logout as logout_user, authenticate
@@ -67,7 +67,7 @@ def users(request, id):
     if user == request.user:
         return redirect('profile')
 
-    polls = get_list_or_404(Poll_Model, author=user)
+    polls = Poll_Model.objects.filter(author=user).all().order_by('-id')
 
     if request.method == 'POST':
         print(request.POST.get('choice'))
@@ -78,7 +78,6 @@ def users(request, id):
                 # return redirect('users')
             else:
                 messages.error(request, 'Please create an account to vote')
-
 
     context = {
         'title': f"{user.username}'s Profile",

@@ -37,5 +37,6 @@ class Poll(models.Model):
             self.save()
             messages.success(request, 'Voted Successfully')
 
+
     def __str__(self):
         return self.title[:50]

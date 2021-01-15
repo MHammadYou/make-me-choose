@@ -25,20 +25,7 @@
                         <form action="" method="post">
                             {% csrf_token %}
                             <h3 class="card-title">{{ poll.title }}</h3>
-                            <div class="input-group mt-1">
-                                <div class="input-group-text">
-                                    <input class="form-check-input" name="choice" type="radio" value="{{ poll.option_1 }}" aria-label="Radio button for following text input">
-                                </div>
-                                <input type="text" class="form-control" disabled value="{{ poll.option_1 }}" aria-label="Text input with radio button">
-                            </div>
-                            <h6 class="card-text">Votes: {{ poll.count_1 }}</h6>
-                            <div class="input-group mt-3">
-                                <div class="input-group-text">
-                                    <input class="form-check-input" name="choice" type="radio" value="{{ poll.option_2 }}" aria-label="Radio button for following text input">
-                                </div>
-                                <input type="text" class="form-control" disabled value="{{ poll.option_2 }}" aria-label="Text input with radio button">
-                            </div>
-                            <h6 class="card-text">Votes: {{ poll.count_2 }}</h6>
+                            {% include 'polls/poll.html' %}
                             <input type="text" name="id" style="display: none" value="{{ poll.id }}">
                             <button class="btn btn-success mt-2">Vote</button>
                             {% if user == poll.author %}
