@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 from polls.models import Poll as Poll_Model
 
@@ -14,8 +15,13 @@ def index(request):
             messages.error(request, 'Please create an account to vote')
             return redirect('signup')
 
+    polls = Poll_Model.objects.all().order_by('-id')
+    polls_obj = Paginator(polls, 5)
+
+    page_number = request.GET.get('page', '1')
+
     context = {
         'title': 'Make Me Choose',
-        'polls': Poll_Model.objects.all().order_by('-id')
+        'polls': polls_obj.page(page_number)
     }
     return render(request, 'index.html', context)

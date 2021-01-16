@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login as login_user, logout as logout_user, authenticate
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 from .forms import LoginForm
 
@@ -67,22 +68,23 @@ def users(request, id):
     if user == request.user:
         return redirect('profile')
 
-    polls = Poll_Model.objects.filter(author=user).all().order_by('-id')
+    if request.method == 'POST' and request.POST.get('choice'):
+        if request.user.is_authenticated:
+            poll_obj = get_object_or_404(Poll_Model, pk=request.POST.get('id'))
+            poll_obj.vote(request)
+            return redirect('users')
+        else:
+            messages.error(request, 'Please create an account to vote')
 
-    if request.method == 'POST':
-        print(request.POST.get('choice'))
-        if request.POST.get('choice'):
-            if request.user.is_authenticated:
-                poll_obj = get_object_or_404(Poll_Model, pk=request.POST.get('id'))
-                poll_obj.vote(request)
-                # return redirect('users')
-            else:
-                messages.error(request, 'Please create an account to vote')
+    polls = Poll_Model.objects.filter(author=user).all().order_by('-id')
+    polls_obj = Paginator(polls, 5)
+
+    page_number = request.GET.get('page', '1')
 
     context = {
         'title': f"{user.username}'s Profile",
         'user_': user,
-        'polls': polls
+        'polls': polls_obj.page(page_number)
     }
 
     return render(request, 'users/users.html', context)

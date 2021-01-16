@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 from polls.models import Poll as Poll_Model
 from profiles.forms import UsernameUpdateForm, ProfileUpdateForm
@@ -9,17 +10,19 @@ from profiles.forms import UsernameUpdateForm, ProfileUpdateForm
 
 @login_required
 def profile(request):
-    polls = Poll_Model.objects.filter(author=request.user).all().order_by('-id')
 
-    if request.method == 'POST':
-        if request.POST.get('choice'):
-            poll_obj = get_object_or_404(Poll_Model, pk=request.POST.get('id'))
-            poll_obj.vote(request)
-            return redirect('profile')
+    if request.method == 'POST' and request.POST.get('choice'):
+        poll_obj = get_object_or_404(Poll_Model, pk=request.POST.get('id'))
+        poll_obj.vote(request)
+        return redirect('profile')
+
+    polls = Poll_Model.objects.filter(author=request.user).all().order_by('-id')
+    polls_obj = Paginator(polls, 5)
+    page_number = request.GET.get('page', '1')
 
     context = {
         'title': 'Profile',
-        'polls': polls
+        'polls': polls_obj.page(page_number)
     }
 
     return render(request, 'profiles/profile.html', context)
