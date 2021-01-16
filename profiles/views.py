@@ -9,7 +9,7 @@ from profiles.forms import UsernameUpdateForm, ProfileUpdateForm
 
 @login_required
 def profile(request):
-    polls = Poll_Model.objects.filter(author=request.user).all()
+    polls = Poll_Model.objects.filter(author=request.user).all().order_by('-id')
 
     if request.method == 'POST':
         if request.POST.get('choice'):
@@ -54,7 +54,6 @@ def edit_profile(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            print(profile_form.cleaned_data)
             messages.success(request, f'Your profile has been updated!')
             return redirect('profile')
 

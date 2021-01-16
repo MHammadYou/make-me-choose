@@ -29,7 +29,7 @@
                     {% if poll.ended %}
                         <input class="form-check-input" name="choice" type="radio" disabled value="{{ poll.option_1 }}" aria-label="Radio button for following text input">
                     {% else %}
-                        <input class="form-check-input" name="choice" type="radio" value="{{ poll.option_1 }}" aria-label="Radio button for following text input">
+                        <input class="form-check-input" name="choice" type="radio" value="img1" aria-label="Radio button for following text input">
                     {% endif %}
                 </div>
                 <img src="{{ poll.image_1.url }}" alt="" class="image img-responsive">
@@ -42,7 +42,7 @@
                     {% if poll.ended %}
                         <input class="form-check-input" name="choice" type="radio" disabled value="{{ poll.option_2 }}" aria-label="Radio button for following text input">
                     {% else %}
-                        <input class="form-check-input" name="choice" type="radio" value="{{ poll.option_2 }}" aria-label="Radio button for following text input">
+                        <input class="form-check-input" name="choice" type="radio" value="img2" aria-label="Radio button for following text input">
                     {% endif %}
                 </div>
                 <img src="{{ poll.image_2.url }}" alt="" class="image img-responsive">
