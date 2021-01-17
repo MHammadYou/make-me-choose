@@ -37,16 +37,15 @@ def login(request):
 
     form = LoginForm(request.POST or None)
 
-    if request.method == 'POST':
-        if form.is_valid():
+    if request.method == 'POST' and form.is_valid():
 
-            user = authenticate(request, **form.cleaned_data)
-            if user:
-                login_user(request, user)
-                messages.success(request, 'You have been logged in')
-                return redirect('index')
-            else:
-                messages.error(request, 'Invalid Credentials')
+        user = authenticate(request, **form.cleaned_data)
+        if user:
+            login_user(request, user)
+            messages.success(request, 'You have been logged in')
+            return redirect('index')
+        else:
+            messages.error(request, 'Invalid Credentials')
 
     context = {
         'title': 'Login',
