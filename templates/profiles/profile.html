@@ -40,7 +40,9 @@
                         </form>
                     </div>
                 {% endfor %}
-                {% include 'pagination.html' %}
+                {% if polls %}
+                    {% include 'pagination.html' %}
+                {% endif %}
             {% endif %}
         </div>
     </div>

@@ -38,7 +38,9 @@
                     </form>
                 </div>
             {% endfor %}
-            {% include 'pagination.html' %}
+            {% if polls %}
+                {% include 'pagination.html' %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}
