@@ -1,6 +1,9 @@
 # make-me-choose
 
-Personal Project
+# Deployment
+https://makemechoose.herokuapp.com/
+
+**Personal Project**
 
 Features:
   Users can signup and login
