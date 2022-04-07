@@ -9,7 +9,7 @@ is better in their opinion and help make-him-choose
 >https://makemechoose.herokuapp.com/
 >```
 
-###setup
+**Setup**
 >```
 >pip install -r requirements.txt
 >```
